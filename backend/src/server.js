@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
 
 const routes = require('./routes');
 
@@ -11,8 +13,12 @@ mongoose.connect('mongodb+srv://aircnc:aircncbd@aircnc-xfdhp.mongodb.net/test?re
     useUnifiedTopology: true,
 });
 
+//Controle de acesso a aplicação
+app.use(cors());
 //Instrução para o express reconhecer JSON
 app.use(express.json());
+//Quanto acessar a rota "files" o método express retorna o arquivo estático
+app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads')));
 //Importa rotas
 app.use(routes);
 
